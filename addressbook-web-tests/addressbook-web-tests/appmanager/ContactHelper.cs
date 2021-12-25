@@ -25,9 +25,9 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper Modify(ContactData newData)
+        public ContactHelper Modify(int p, ContactData newData)
         {
-            InitContactModification();
+            InitContactModification(p);
             FillContactForm(newData);
             SubmitContacModification();
             manager.Navigator.ReturnToHomePage();
@@ -42,7 +42,6 @@ namespace WebAddressbookTests
             driver.SwitchTo().Alert().Accept();
             manager.Navigator.GoToGroupsPage();
             manager.Auth.Logout();
-
             return this;
         }
 
@@ -55,9 +54,9 @@ namespace WebAddressbookTests
 
         public ContactHelper FillContactForm(ContactData contact)
         {
-            driver.FindElement(By.Name("firstname")).SendKeys(contact.Firstname);
-            driver.FindElement(By.Name("middlename")).SendKeys(contact.Middlename);
-            driver.FindElement(By.Name("lastname")).SendKeys(contact.Lastname);
+            Type(By.Name("firstname"), contact.Firstname);
+            Type(By.Name("middlename"), contact.Middlename);
+            Type(By.Name("lastname"), contact.Lastname);
             return this;
         }
 
@@ -68,9 +67,9 @@ namespace WebAddressbookTests
         }
 
 
-        public ContactHelper InitContactModification()
+        public ContactHelper InitContactModification(int index)
         {
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[8]/a/img")).Click();
             return this;
         }
 
@@ -81,9 +80,9 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public ContactHelper SelectContact(int p)
+        public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[2]/td/input")).Click();
+            driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr["+ index +"]/td/input")).Click();
             return this;
         }
 
