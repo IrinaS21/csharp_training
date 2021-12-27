@@ -21,7 +21,6 @@ namespace WebAddressbookTests
             FillContactForm(contact);
             SubmitContacCreation();
             manager.Navigator.ReturnToHomePage();
-            manager.Auth.Logout();
             return this;
         }
 
@@ -31,7 +30,6 @@ namespace WebAddressbookTests
             FillContactForm(newData);
             SubmitContacModification();
             manager.Navigator.ReturnToHomePage();
-            manager.Auth.Logout();
             return this;
         }
 
@@ -41,7 +39,6 @@ namespace WebAddressbookTests
             RemoveContact();
             driver.SwitchTo().Alert().Accept();
             manager.Navigator.GoToGroupsPage();
-            manager.Auth.Logout();
             return this;
         }
 
@@ -69,6 +66,16 @@ namespace WebAddressbookTests
 
         public ContactHelper InitContactModification(int index)
         {
+            if (!IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[8]/a/img")))
+            {
+                ContactData contact = (new ContactData("Petr", "Sidorov"));
+                contact.Middlename = "Petrovich";
+
+                Create(contact);
+                driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[8]/a/img")).Click();
+                return this;
+            }
+
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[8]/a/img")).Click();
             return this;
         }
@@ -82,6 +89,17 @@ namespace WebAddressbookTests
 
         public ContactHelper SelectContact(int index)
         {
+            if (!IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td/input")))
+            {
+                ContactData contact = (new ContactData("Petr", "Sidorov"));
+                contact.Middlename = "Petrovich";
+
+                Create(contact);
+                driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td/input")).Click();
+                return this;
+            }
+
+
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr["+ index +"]/td/input")).Click();
             return this;
         }
