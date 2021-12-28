@@ -26,6 +26,7 @@ namespace WebAddressbookTests
 
         public ContactHelper Modify(int p, ContactData newData)
         {
+            IsContactPresent();
             InitContactModification(p);
             FillContactForm(newData);
             SubmitContacModification();
@@ -35,6 +36,7 @@ namespace WebAddressbookTests
 
         public ContactHelper Remove(int p)
         {
+            IsContactPresent();
             SelectContact(p);
             RemoveContact();
             driver.SwitchTo().Alert().Accept();
@@ -42,6 +44,17 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public ContactHelper IsContactPresent()
+        {
+            if (!IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img")))
+            {
+                ContactData contact = (new ContactData("Petr", "Sidorov"));
+                contact.Middlename = "Petrovich";
+
+                Create(contact);
+            }
+            return this;
+        }
         public ContactHelper InitNewContactCreation()
         {
             driver.FindElement(By.LinkText("add new")).Click();
@@ -66,16 +79,6 @@ namespace WebAddressbookTests
 
         public ContactHelper InitContactModification(int index)
         {
-            if (!IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[8]/a/img")))
-            {
-                ContactData contact = (new ContactData("Petr", "Sidorov"));
-                contact.Middlename = "Petrovich";
-
-                Create(contact);
-                driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[8]/a/img")).Click();
-                return this;
-            }
-
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td[8]/a/img")).Click();
             return this;
         }
@@ -89,17 +92,6 @@ namespace WebAddressbookTests
 
         public ContactHelper SelectContact(int index)
         {
-            if (!IsElementPresent(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td/input")))
-            {
-                ContactData contact = (new ContactData("Petr", "Sidorov"));
-                contact.Middlename = "Petrovich";
-
-                Create(contact);
-                driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr[" + index + "]/td/input")).Click();
-                return this;
-            }
-
-
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr["+ index +"]/td/input")).Click();
             return this;
         }

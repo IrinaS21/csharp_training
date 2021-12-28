@@ -29,6 +29,7 @@ namespace WebAddressbookTests
         public GroupHelper Modify(int p, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
+            IsGroupPresent();
             SelectGroup(p);
             InitGroupModification();
             FillGropForm(newData); 
@@ -41,6 +42,7 @@ namespace WebAddressbookTests
         public GroupHelper Remove(int p)
         {
             manager.Navigator.GoToGroupsPage();
+            IsGroupPresent();
             SelectGroup(p);
             RemoveGroup();
             manager.Navigator.GoToGroupsPage();
@@ -48,7 +50,18 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public GroupHelper IsGroupPresent()
+        {
+            if (!IsElementPresent(By.XPath("//div[@id='content']/form/span[1]/input")))
+            {
+                GroupData group = (new GroupData("aaa"));
+                group.Header = "ddd";
+                group.Footer = "fff";
 
+                Create(group);
+            }
+            return this;
+        }
         public GroupHelper InitNewGroupCreation()
         {
             driver.FindElement(By.Name("new")).Click();
@@ -76,33 +89,19 @@ namespace WebAddressbookTests
 
         public GroupHelper SelectGroup(int index)
         {
-            if (! IsElementPresent(By.XPath("//div[@id='content']/form/span[" + index + "]/input")))
-            {
-                GroupData group = (new GroupData("aaa"));
-                group.Header = "ddd";
-                group.Footer = "fff";
-
-                Create(group);
-                driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
-                return this;
-            }
             driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
             return this;
-
         }
 
         public GroupHelper InitGroupModification()
         {
             driver.FindElement(By.Name("edit")).Click();
-
             return this;
-
         }
 
         public GroupHelper SubmitGroupModification()
         {
             driver.FindElement(By.Name("update")).Click();
-
             return this;
 
         }
