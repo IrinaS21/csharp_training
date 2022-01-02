@@ -26,10 +26,21 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public List<GroupData> GetGroupList()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            manager.Navigator.GoToGroupsPage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            foreach (IWebElement element in elements)
+            {
+                groups.Add(new GroupData(element.Text));
+            }
+            return groups;
+        }
+
         public GroupHelper Modify(int p, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
-            IsGroupPresent();
             SelectGroup(p);
             InitGroupModification();
             FillGropForm(newData); 
@@ -42,7 +53,6 @@ namespace WebAddressbookTests
         public GroupHelper Remove(int p)
         {
             manager.Navigator.GoToGroupsPage();
-            IsGroupPresent();
             SelectGroup(p);
             RemoveGroup();
             manager.Navigator.GoToGroupsPage();
@@ -52,7 +62,8 @@ namespace WebAddressbookTests
 
         public GroupHelper IsGroupPresent()
         {
-            if (!IsElementPresent(By.XPath("//div[@id='content']/form/span[1]/input")))
+            manager.Navigator.GoToGroupsPage();
+            if (!IsElementPresent(By.CssSelector("span.group")))
             {
                 GroupData group = (new GroupData("aaa"));
                 group.Header = "ddd";
@@ -62,6 +73,7 @@ namespace WebAddressbookTests
             }
             return this;
         }
+
         public GroupHelper InitNewGroupCreation()
         {
             driver.FindElement(By.Name("new")).Click();

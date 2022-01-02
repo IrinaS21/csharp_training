@@ -36,11 +36,9 @@ namespace WebAddressbookTests
 
         public ContactHelper Remove(int p)
         {
-            IsContactPresent();
             SelectContact(p);
             RemoveContact();
             driver.SwitchTo().Alert().Accept();
-            manager.Navigator.GoToGroupsPage();
             return this;
         }
 
