@@ -28,10 +28,18 @@ namespace WebAddressbookTests
         {
             List<ContactData> contacts = new List<ContactData>();
             manager.Navigator.GoToHomePage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("input[name='selected[]']"));
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name='entry']"));
             foreach(IWebElement element in elements)
             {
-                contacts.Add(new ContactData(element.Text, element.Text));
+                IList<IWebElement> cells = element.FindElements(By.TagName("td"));
+                foreach (IWebElement cell in cells)
+                {
+                    if (!string.IsNullOrEmpty(cell.Text))
+                    {
+                        contacts.Add(new ContactData(cell.Text, cell.Text));
+                        //Console.WriteLine(cell.Text, cell.Text);
+                    }
+                }
             }
             return contacts;
         }

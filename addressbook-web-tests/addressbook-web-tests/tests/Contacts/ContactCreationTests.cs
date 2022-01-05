@@ -25,8 +25,8 @@ namespace WebAddressbookTests
             oldContacts.Add(contact);
             oldContacts.Sort();
             newContacts.Sort();
-
             Assert.AreEqual(oldContacts, newContacts);
+
         }
     }
 }
