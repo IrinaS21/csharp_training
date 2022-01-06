@@ -32,14 +32,8 @@ namespace WebAddressbookTests
             foreach(IWebElement element in elements)
             {
                 IList<IWebElement> cells = element.FindElements(By.TagName("td"));
-                foreach (IWebElement cell in cells)
-                {
-                    if (!string.IsNullOrEmpty(cell.Text))
-                    {
-                        contacts.Add(new ContactData(cell.Text, cell.Text));
-                        //Console.WriteLine(cell.Text, cell.Text);
-                    }
-                }
+                        contacts.Add(new ContactData(element.Text, null));
+                        Console.WriteLine(element.Text);
             }
             return contacts;
         }
