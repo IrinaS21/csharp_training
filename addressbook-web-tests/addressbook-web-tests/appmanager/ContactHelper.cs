@@ -31,13 +31,14 @@ namespace WebAddressbookTests
             ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name='entry']"));
             foreach(IWebElement element in elements)
             {
-                IList<IWebElement> lastnames = element.FindElements(By.CssSelector("td:nth-child(2)"));
-                IList<IWebElement> firstnames = element.FindElements(By.CssSelector("td:nth-child(3)"));
-                foreach (IWebElement lastname in lastnames) foreach (IWebElement firstname in firstnames)
-                {
-                        contacts.Add(new ContactData(firstname.Text, lastname.Text));
-                }
-
+                IWebElement lastname = element.FindElement(By.CssSelector("td:nth-child(2)"));
+                IWebElement firstname = element.FindElement(By.CssSelector("td:nth-child(3)"));
+                //второй вариант реализации
+                //IList<IWebElement> cells = element.FindElements(By.TagName("td"));
+                //IWebElement lastname = cells[1];
+                //IWebElement firstname = cells[2];
+                contacts.Add(new ContactData(firstname.Text, lastname.Text));
+               
             }
             return contacts;
         }

@@ -28,16 +28,12 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return firstname == other.firstname;
-            return lastname == other.lastname;
-
-
+            return firstname == other.firstname && lastname == other.lastname;
         }
 
         public override int GetHashCode()
         {
-            return firstname.GetHashCode();
-            return lastname.GetHashCode();
+            return lastname.GetHashCode() & firstname.GetHashCode();
         }
 
         public override string ToString()
@@ -51,9 +47,15 @@ namespace WebAddressbookTests
             {
                 return 1;
             }
-            return firstname.CompareTo(other.firstname);
-            return lastname.CompareTo(other.lastname);
-
+            if (this.firstname != other.firstname)
+            {
+                return firstname.CompareTo(other.firstname);
+            }
+            if (this.lastname != other.lastname)
+            {
+                return lastname.CompareTo(other.lastname);
+            }
+            return lastname.CompareTo(other.lastname) & firstname.CompareTo(other.firstname);
         }
 
         public string Firstname
