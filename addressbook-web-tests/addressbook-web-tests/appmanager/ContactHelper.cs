@@ -42,26 +42,75 @@ namespace WebAddressbookTests
             manager.Navigator.GoToHomePage();
             InitContactModification(0);
             string firstName = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string middleName = driver.FindElement(By.Name("middlename")).GetAttribute("value");
             string lastName = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string nickName = driver.FindElement(By.Name("nickname")).GetAttribute("value");
+            string company = driver.FindElement(By.Name("company")).GetAttribute("value");
+            string title = driver.FindElement(By.Name("title")).GetAttribute("value");
             string address = driver.FindElement(By.Name("address")).GetAttribute("value");
             string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
             string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
             string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+            string fax = driver.FindElement(By.Name("fax")).GetAttribute("value");
             string email = driver.FindElement(By.Name("email")).GetAttribute("value");
             string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
             string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
+            string homepage = driver.FindElement(By.Name("homepage")).GetAttribute("value");
+            string bday = driver.FindElement(By.Name("bday")).GetAttribute("value");
+            string bmonth = driver.FindElement(By.XPath("//div[@id='content']/form/select[2]/option[1]")).Text;
+            string byear = driver.FindElement(By.Name("byear")).GetAttribute("value");
+            string aday = driver.FindElement(By.Name("aday")).GetAttribute("value");
+            string amonth = driver.FindElement(By.XPath("//div[@id='content']/form/select[4]/option[1]")).Text;
+            string ayear = driver.FindElement(By.Name("ayear")).GetAttribute("value");
+            string address2 = driver.FindElement(By.Name("address2")).Text;
+            string phone2 = driver.FindElement(By.Name("phone2")).GetAttribute("value");
+            string notes = driver.FindElement(By.Name("notes")).Text;
 
             return new ContactData(firstName, lastName)
             {
+                Middlename = middleName,
+                Nickname = nickName,
+                Company = company,
+                Title = title,
                 Address = address,
                 HomePhone = homePhone,
                 MobilePhone = mobilePhone,
                 WorkPhone = workPhone,
+                Fax = fax,
                 Email = email,
                 Email2 = email2,
-                Email3 = email3
+                Email3 = email3,
+                Homepage = homepage,
+                BDay = bday,
+                BMonth = bmonth,
+                BYear = byear,
+                ADay = aday,
+                AMonth = amonth,
+                AYear = ayear,
+                Address2 = address2,
+                Phone2 = phone2,
+                Notes = notes
             };
         }
+
+
+        public ContactData GetContactInformationFromDetailsForm()
+        {
+            manager.Navigator.GoToHomePage();
+            OpenContactDetails(0);
+            var fullName = driver.FindElement(By.XPath("//div[@id='content']/b")).Text.Split(' ');
+            string firstName = fullName[0];
+            string middleName = fullName[1];
+            string lastName = fullName[2];
+            string allDetails = driver.FindElement(By.XPath("//div[@id='content']")).Text;
+
+            return new ContactData(firstName, lastName)
+            {
+                Middlename = middleName,
+                AllDetails = allDetails
+            };
+        }
+
 
         public ContactHelper Create(ContactData contact)
         {
@@ -78,6 +127,7 @@ namespace WebAddressbookTests
         }
 
         private List<ContactData> contactCache = null;
+
         public List<ContactData> GetContactList()
         {
             if (contactCache == null)
@@ -191,5 +241,14 @@ namespace WebAddressbookTests
             Match m = new Regex(@"\d+").Match(text);
             return Int32.Parse(m.Value);
         }
+
+        public ContactHelper OpenContactDetails(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[6]
+                .FindElement(By.TagName("a")).Click();
+            return this;
+        }
+
     }
 }
