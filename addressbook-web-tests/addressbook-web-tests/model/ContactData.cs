@@ -270,7 +270,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (ReturnEmailWithRN(Email) + ReturnEmailWithRN(Email2) + ReturnEmailWithRN(Email3)).Trim();
+                    return (ReturnDetailwithRN(Email) + ReturnDetailwithRN(Email2) + ReturnDetailwithRN(Email3)).Trim();
                 }
             }
             set
@@ -289,22 +289,22 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (ReturnFullName(Firstname, Middlename, Lastname) + ReturnDetailwithBr(Nickname) + "\r\n"
-                        + ReturnDetailwithBr(Title)
-                        + ReturnDetailwithBr(Company)
-                        + ReturnDetailwithBr(Address) + "\r\n" 
-                        + ReturnDetailwithBr(HomePhone, "H: ")
-                        + ReturnDetailwithBr(MobilePhone, "M: ")
-                        + ReturnDetailwithBr(WorkPhone, "W: ")
-                        + ReturnDetailwithBr(Fax, "F: ") + "\r\n"
-                        + ReturnDetailwithBr(Email)
-                        + ReturnDetailwithBr(Email2)
-                        + ReturnDetailwithBr(Email3)
-                        + ReturnDetailwithBr(Homepage, "Homepage:\r\n") + "\r\n"
+                    return (ReturnFullName(Firstname, Middlename, Lastname) + ReturnDetailwithRN(Nickname) + "\r\n"
+                        + ReturnDetailwithRN(Title)
+                        + ReturnDetailwithRN(Company)
+                        + ReturnDetailwithRN(Address) + "\r\n" 
+                        + ReturnDetailwithRN(HomePhone, "H: ")
+                        + ReturnDetailwithRN(MobilePhone, "M: ")
+                        + ReturnDetailwithRN(WorkPhone, "W: ")
+                        + ReturnDetailwithRN(Fax, "F: ") + "\r\n"
+                        + ReturnDetailwithRN(Email)
+                        + ReturnDetailwithRN(Email2)
+                        + ReturnDetailwithRN(Email3)
+                        + ReturnDetailwithRN(Homepage, "Homepage:\r\n") + "\r\n"
                         + GetAge(BDay, BMonth, BYear, "Birthday ") 
                         + GetAnniversary(ADay, AMonth, AYear, "Anniversary ") + "\r\n"
-                        + ReturnDetailwithBr(Address2) + "\r\n"
-                        + ReturnDetailwithBr(Phone2, "P: ") + "\r\n"
+                        + ReturnDetailwithRN(Address2) + "\r\n"
+                        + ReturnDetailwithRN(Phone2, "P: ") + "\r\n"
                         + ReturnDetailwithoutBr(Notes));
 
                 }
@@ -324,16 +324,7 @@ namespace WebAddressbookTests
             return Regex.Replace(phone, "[ \\-()]", "") + "\r\n";
         }
 
-        public string ReturnEmailWithRN(string email)
-        {
-            if (email == null || email == "")
-            {
-                return "";
-            }
-            return email + "\r\n";
-        }
-
-        public string ReturnDetailwithBr(string text)
+        public string ReturnDetailwithRN(string text)
         {
             if (text == null || text == "")
             {
@@ -343,7 +334,7 @@ namespace WebAddressbookTests
         }
 
 
-        public string ReturnDetailwithBr(string text, string fieldName)
+        public string ReturnDetailwithRN(string text, string fieldName)
         {
             if (text == null || text == "")
             {
