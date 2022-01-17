@@ -15,11 +15,11 @@ namespace WebAddressbookTests
         public void ContactInformationTest()
         {
            ContactData fromTable = app.Contacts.GetContactInformationFromTable(0);
-           ContactData fromForm = app.Contacts.GetContactInformationFromEditForm(0);
+           ContactData fromForm = app.Contacts.GetContactInformationFromEditForm();
 
             //verification
             Assert.AreEqual(fromTable, fromForm);
-            Assert.AreEqual(fromTable.Address, fromForm.Address);
+            Assert.AreEqual(fromTable.Address, fromForm.Address.Trim());
             Assert.AreEqual(fromTable.AllEmail, fromForm.AllEmail);
             Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
 
@@ -28,13 +28,11 @@ namespace WebAddressbookTests
         [Test]
         public void ContactDetailTest()
         {
-            ContactData fromDetails = app.Contacts.GetContactInformationFromDetailsForm();
-            ContactData fromForm = app.Contacts.GetContactInformationFromEditForm(0);
+            string fromDetails = app.Contacts.GetContactInformationFromDetailsForm();
+            ContactData fromForm = app.Contacts.GetContactInformationFromEditForm();
 
             //verification
-            Assert.AreEqual(fromDetails, fromForm);
-            Assert.AreEqual(fromDetails.Middlename, fromForm.Middlename);
-            Assert.AreEqual(fromDetails.AllDetails, fromForm.AllDetails);
+            Assert.AreEqual(fromDetails, fromForm.AllDetails);
         }
     }
 }

@@ -9,9 +9,15 @@ namespace WebAddressbookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        private string allPhones;
-        private string allEmail;
-        private string allDetails;
+        public string allPhones;
+        public string allEmail;
+        public string allDetails;
+        public string fullNameNicknameblock;
+        public string titleCompAddrBlock;
+        public string phonesBlock;
+        public string emailHomepageBlock;
+        public string birthAnnivBlock;
+        public string secondaryBlock;
 
         public ContactData(string firstname, string lastname)
         {
@@ -84,10 +90,6 @@ namespace WebAddressbookTests
         public string Address2 { get; set; }
         public string Phone2 { get; set; }
         public string Notes { get; set; }
-        public string SecondaryAddress { get; set; }
-        public string SecondaryHome { get; set; }
-        public string SecondaryNotes { get; set; }
-        public string FullName { get; set; }
 
         public string GetAge(string day, string month, string year, string fieldName)
         {
@@ -182,11 +184,11 @@ namespace WebAddressbookTests
             {
                 if (year != "")
                 {
-                    return fieldName + FullDate + " (" + Age + ")\r\n";
+                    return fieldName + FullDate + " (" + Age + ")";
                 }
                 else
                 {
-                    return fieldName + FullDate + "\r\n";
+                    return fieldName + FullDate;
                 }
             }
             else return "";
@@ -228,13 +230,13 @@ namespace WebAddressbookTests
             }
             if (FullDate != "")
             {
-                if (year != "")
+                if (year != null && year != "")
                 {
-                    return fieldName + FullDate + " (" + Anniversary + ")\r\n";
+                    return fieldName + FullDate + " (" + Anniversary + ")";
                 }
                 else
                 {
-                    return fieldName + FullDate + "\r\n";
+                    return fieldName + FullDate;
                 }
             }
             else return "";
@@ -283,31 +285,89 @@ namespace WebAddressbookTests
         {
             get
             {
+                string fullNameBlock = FullNameNicknameblock;
+                string titleBlock = TitleCompAddrBlock;
+                string phoneBlock = PhonesBlock;
+                string emailBlock = EmailHomepageBlock;
+                string dateBlock = BirthAnnivBlock;
+                string secondaryBlock = SecondaryBlock;
+                string allDetails2 = "";
+
+
+
                 if (allDetails != null)
                 {
-                    return allDetails;
+                    return allDetails = "";
                 }
                 else
                 {
-                    return (ReturnFullName(Firstname, Middlename, Lastname) + ReturnDetailwithRN(Nickname) + "\r\n"
-                        + ReturnDetailwithRN(Title)
-                        + ReturnDetailwithRN(Company)
-                        + ReturnDetailwithRN(Address) + "\r\n" 
-                        + ReturnDetailwithRN(HomePhone, "H: ")
-                        + ReturnDetailwithRN(MobilePhone, "M: ")
-                        + ReturnDetailwithRN(WorkPhone, "W: ")
-                        + ReturnDetailwithRN(Fax, "F: ") + "\r\n"
-                        + ReturnDetailwithRN(Email)
-                        + ReturnDetailwithRN(Email2)
-                        + ReturnDetailwithRN(Email3)
-                        + ReturnDetailwithRN(Homepage, "Homepage:\r\n") + "\r\n"
-                        + GetAge(BDay, BMonth, BYear, "Birthday ") 
-                        + GetAnniversary(ADay, AMonth, AYear, "Anniversary ") + "\r\n"
-                        + ReturnDetailwithRN(Address2) + "\r\n"
-                        + ReturnDetailwithRN(Phone2, "P: ") + "\r\n"
-                        + ReturnDetailwithoutBr(Notes));
+                    if (fullNameBlock != "")
+                    {
+                        allDetails2 = fullNameBlock;
+                    }
+                    if (titleBlock != "")
+                    {
+                        if (allDetails2 != "")
+                        {
+                            allDetails2 += ReturnDetailwithRNabove(titleBlock);
+                        }
+                        else
+                        {
+                            allDetails2 = titleBlock;
+                        }
+                    }
+                    if (phoneBlock != "")
+                    {
+                        if (allDetails2 != "")
+                        {
+                            allDetails2 += ReturnDetailwithRNRNabove(phoneBlock);
+                        }
+                        else
+                        {
+                            allDetails2 = phoneBlock;
+                        }
+                    }
+                    if (emailBlock != "")
+                    {
+                        if (allDetails2 != "")
+                        {
+                            allDetails2 += ReturnDetailwithRNRNabove(emailBlock);
+                        }
+                        else
+                        {
+                            allDetails2 = emailBlock;
+                        }
+                    }
+                    if (dateBlock != null && dateBlock != "")
+                    {
+                        if (allDetails2 != "")
+                        {
+                            allDetails2 += ReturnDetailwithRNRNabove(dateBlock);
+                        }
+                        else
+                        {
+                            allDetails2 = dateBlock;
+                        }
+                    }
+                    else 
+                        if (secondaryBlock != "" && secondaryBlock != "P:")
+                    {
+                        allDetails2 += "\r\n";
 
+                    }
+                    if (secondaryBlock != "")
+                    {
+                        if (allDetails2 != "")
+                        {
+                            allDetails2 += ReturnDetailwithRNRNabove(secondaryBlock);
+                        }
+                        else
+                        {
+                            allDetails2 = secondaryBlock;
+                        }
+                    }
                 }
+                return allDetails2.Trim();
             }
             set
             {
@@ -315,6 +375,241 @@ namespace WebAddressbookTests
             }
         }
 
+        public string FullNameNicknameblock
+        {
+            get
+            {
+                if (fullNameNicknameblock != null)
+                {
+                    return fullNameNicknameblock;
+                }
+                else
+                {
+                    if (ReturnFullName(Firstname.Trim(), Middlename.Trim(), Lastname.Trim()) != "")
+                    {
+                        return (ReturnFullName(Firstname.Trim(), Middlename.Trim(), Lastname.Trim()) + "\r\n" + Nickname.Trim());
+                    }
+                    else 
+                    return (ReturnDetailwithoutRN(Nickname));
+                }
+            }
+            set
+            {
+                fullNameNicknameblock = value;
+            }
+        }
+
+        public string TitleCompAddrBlock
+        {
+            get
+            {
+                string titleCompAddrBlock = "";
+                if (Title != null && Title != "")
+                {
+                    titleCompAddrBlock = Title.Trim();
+                }
+                if (Company != null && Company != "")
+                {
+                    if (titleCompAddrBlock != null && titleCompAddrBlock != "")
+                    {
+                        titleCompAddrBlock += "\r\n" + Company.Trim();
+                    }
+                    else
+                    {
+                        titleCompAddrBlock = Company.Trim();
+                    }
+                }
+                if (Address != null && Address != "")
+                {
+                    if (titleCompAddrBlock != null && titleCompAddrBlock != "")
+                    {
+                        titleCompAddrBlock += "\r\n" + Address.Trim();
+                    }
+                    else
+                    {
+                        titleCompAddrBlock = Address.Trim();
+                    }
+                }
+                return titleCompAddrBlock;
+            }
+            set
+            {
+                titleCompAddrBlock = value;
+            }
+        }
+
+        public string PhonesBlock
+        {
+            get
+            {
+                string phonesBlock = "";
+
+                if (HomePhone != null && HomePhone != "")
+                {
+                    phonesBlock = ("H: " + HomePhone.Trim()).Trim();
+                }
+                if (MobilePhone != null && MobilePhone != "")
+                {
+                    if (phonesBlock != null && phonesBlock != "")
+                    {
+                        phonesBlock += "\r\n" + ("M: " + MobilePhone.Trim()).Trim();
+                    }
+                    else
+                    {
+                        phonesBlock = ("M: " + MobilePhone.Trim()).Trim();
+                    }
+                }
+                if (WorkPhone != null && WorkPhone != "")
+                {
+                    if (phonesBlock != null && phonesBlock != "")
+                    {
+                        phonesBlock += "\r\n" + ("W: " + WorkPhone.Trim()).Trim();
+                    }
+                    else
+                    {
+                        phonesBlock = ("W: " + WorkPhone.Trim()).Trim();
+                    }
+                }
+                if (Fax != null && Fax != "")
+                {
+                    if (phonesBlock != null && phonesBlock != "")
+                    {
+                        phonesBlock += "\r\n" + ("F: " + Fax.Trim()).Trim();
+                    }
+                    else
+                    {
+                        phonesBlock = ("F: " + Fax.Trim()).Trim();
+                    }
+                }
+                return phonesBlock;
+            }
+            set
+            {
+                phonesBlock = value;
+            }
+        }
+
+        public string EmailHomepageBlock
+        {
+            get
+            {
+                string emailHomepageBlock = "";
+
+                if (Email != null && Email != "")
+                {
+                    emailHomepageBlock = Email;
+                }
+                if (Email2 != null && Email2 != "")
+                {
+                    if (emailHomepageBlock != null && emailHomepageBlock != "")
+                    {
+                        emailHomepageBlock = emailHomepageBlock.Trim() + "\r\n" + Email2.Trim();
+                    }
+                    else
+                    {
+                        emailHomepageBlock = Email2;
+                    }
+                }
+                if (Email3 != null && Email3 != "")
+                {
+                    if (emailHomepageBlock != null && emailHomepageBlock != "")
+                    {
+                        emailHomepageBlock = emailHomepageBlock + "\r\n" + Email3.Trim();
+                    }
+                    else
+                    {
+                        emailHomepageBlock = Email3;
+                    }
+                }
+                if (Homepage != null && Homepage != "")
+                {
+                    if (emailHomepageBlock != null && emailHomepageBlock != "")
+                    {
+                        emailHomepageBlock = emailHomepageBlock + "\r\n" + "Homepage:\r\n" + Homepage.Trim();
+                    }
+                    else
+                    {
+                        emailHomepageBlock = "Homepage:\r\n" + Homepage.Trim();
+                    }
+                }
+                return emailHomepageBlock;
+            }
+            set
+            {
+                emailHomepageBlock = value;
+            }
+        }
+
+        public string BirthAnnivBlock
+        {
+            get
+            {
+                string bithString = GetAge(BDay, BMonth, BYear, "Birthday ");
+                string annivString = GetAnniversary(ADay, AMonth, AYear, "Anniversary ");
+                string birthAnnivBlock = "";
+
+                if (bithString != null && bithString != "")
+                {
+                    birthAnnivBlock = bithString.Trim();
+                }
+                if (annivString != null && annivString != "")
+                {
+                    if (birthAnnivBlock != null && birthAnnivBlock != "")
+                    {
+                        birthAnnivBlock += "\r\n" + annivString.Trim();
+                    }
+                    else
+                    {
+                        birthAnnivBlock = annivString.Trim();
+                    }
+                }
+                return birthAnnivBlock;
+            }
+            set
+            {
+                birthAnnivBlock = value;
+            }
+        }
+
+        public string SecondaryBlock
+        {
+            get
+            {
+                string secondaryBlock = "";
+                if (Address2.Trim() != null && Address2.Trim() != "")
+                {
+                    secondaryBlock = Address2.Trim();
+                }
+                if (Phone2 != null && Phone2 != "")
+                {
+                    if (secondaryBlock != null && secondaryBlock != "")
+                    {
+                        secondaryBlock += "\r\n\r\n" + ("P: " + Phone2.Trim()).Trim();
+                    }
+                    else
+                    {
+                        secondaryBlock = "\r\n" + ("P: " + Phone2.Trim()).Trim();
+                    }
+                }
+                if (Notes.Trim() != null && Notes.Trim() != "")
+                {
+                    if (secondaryBlock != null && secondaryBlock != "")
+                    {
+                        secondaryBlock += "\r\n\r\n" + Notes.Trim();
+                    }
+                    else
+                    {
+                        secondaryBlock = Notes.Trim();
+                    }
+                }
+                return secondaryBlock;
+            }
+            set
+            {
+                secondaryBlock = value;
+            }
+           
+        }
         public string CleanUp(string phone)
         {
             if (phone == null || phone == "")
@@ -333,17 +628,7 @@ namespace WebAddressbookTests
             return text + "\r\n";
         }
 
-
-        public string ReturnDetailwithRN(string text, string fieldName)
-        {
-            if (text == null || text == "")
-            {
-                return "";
-            }
-            return fieldName + text + "\r\n";
-        }
-
-        public string ReturnDetailwithoutBr(string text)
+        public string ReturnDetailwithoutRN(string text)
         {
             if (text == null || text == "")
             {
@@ -352,6 +637,23 @@ namespace WebAddressbookTests
             return text;
         }
 
+        public string ReturnDetailwithRNabove(string text)
+        {
+            if (text == null || text == "")
+            {
+                return "";
+            }
+            return "\r\n" + text;
+        }
+
+        public string ReturnDetailwithRNRNabove(string text)
+        {
+            if (text == null || text == "")
+            {
+                return "";
+            }
+            return "\r\n\r\n" + text;
+        }
 
         public string ReturnFullName(string name, string middlename, string lastname )
         {
@@ -383,7 +685,7 @@ namespace WebAddressbookTests
                 }
             }
 
-            return FullName + "\r\n";
+            return FullName;
         }
 
     }

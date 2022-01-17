@@ -37,7 +37,7 @@ namespace WebAddressbookTests
 
         }
 
-        public ContactData GetContactInformationFromEditForm(int index)
+        public ContactData GetContactInformationFromEditForm()
         {
             manager.Navigator.GoToHomePage();
             InitContactModification(0);
@@ -66,7 +66,7 @@ namespace WebAddressbookTests
             string phone2 = driver.FindElement(By.Name("phone2")).GetAttribute("value");
             string notes = driver.FindElement(By.Name("notes")).Text;
 
-            return new ContactData(firstName, lastName)
+            return new ContactData(firstName.Trim(), lastName.Trim())
             {
                 Middlename = middleName,
                 Nickname = nickName,
@@ -94,21 +94,12 @@ namespace WebAddressbookTests
         }
 
 
-        public ContactData GetContactInformationFromDetailsForm()
+        public string GetContactInformationFromDetailsForm()
         {
             manager.Navigator.GoToHomePage();
             OpenContactDetails(0);
-            var fullName = driver.FindElement(By.XPath("//div[@id='content']/b")).Text.Split(' ');
-            string firstName = fullName[0];
-            string middleName = fullName[1];
-            string lastName = fullName[2];
-            string allDetails = driver.FindElement(By.XPath("//div[@id='content']")).Text;
-
-            return new ContactData(firstName, lastName)
-            {
-                Middlename = middleName,
-                AllDetails = allDetails
-            };
+            string AllDetails = driver.FindElement(By.XPath("//div[@id='content']")).Text;
+            return AllDetails;
         }
 
 
