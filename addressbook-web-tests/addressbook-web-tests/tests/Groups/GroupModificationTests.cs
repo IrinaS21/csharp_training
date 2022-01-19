@@ -10,7 +10,7 @@ namespace WebAddressbookTests
     [TestFixture]
     public class GroupModificationTests : AuthTestBase
     {
-        [Test]
+        [Test, TestCaseSource("RandomGroupDataProvider")]
         public void GroupModificationTest()
         {
             GroupData newData = (new GroupData("zzz"));
