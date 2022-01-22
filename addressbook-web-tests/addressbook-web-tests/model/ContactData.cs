@@ -19,6 +19,12 @@ namespace WebAddressbookTests
         public string birthAnnivBlock;
         public string secondaryBlock;
 
+        public ContactData()
+        {
+
+        }
+
+
         public ContactData(string firstname, string lastname)
         {
             Firstname = firstname;
@@ -379,19 +385,24 @@ namespace WebAddressbookTests
         {
             get
             {
-                if (fullNameNicknameblock != null)
+                string fullNameNicknameblock = "";
+                string fullName = ReturnFullName(Firstname.Trim(), Middlename.Trim(), Lastname.Trim());
+                if (fullName != null && fullName != "")
                 {
-                    return fullNameNicknameblock;
+                    fullNameNicknameblock = fullName.Trim();
                 }
-                else
+                if (Nickname != null && Nickname != "")
                 {
-                    if (ReturnFullName(Firstname.Trim(), Middlename.Trim(), Lastname.Trim()) != "")
+                    if (fullNameNicknameblock != null && fullNameNicknameblock != "")
                     {
-                        return (ReturnFullName(Firstname.Trim(), Middlename.Trim(), Lastname.Trim()) + "\r\n" + Nickname.Trim());
+                        fullNameNicknameblock += "\r\n" + Nickname.Trim();
                     }
-                    else 
-                    return (ReturnDetailwithoutRN(Nickname));
+                    else
+                    {
+                        fullNameNicknameblock = Nickname.Trim();
+                    }
                 }
+                return fullNameNicknameblock;
             }
             set
             {
