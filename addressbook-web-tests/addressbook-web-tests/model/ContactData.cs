@@ -99,6 +99,8 @@ namespace WebAddressbookTests
 
         public string GetAge(string day, string month, string year, string fieldName)
         {
+            if (day == null) return null;
+
             int monthNumber = 0;
             int Age;
             switch (month)
@@ -108,47 +110,36 @@ namespace WebAddressbookTests
                     break;
                 case "February":
                     monthNumber = 2;
-
                     break;
                 case "March":
                     monthNumber = 3;
-
                     break;
                 case "April":
                     monthNumber = 4;
-
                     break;
                 case "May":
                     monthNumber = 5;
-
                     break;
                 case "June":
                     monthNumber = 6;
-
                     break;
                 case "July":
                     monthNumber = 7;
-
                     break;
                 case "August":
                     monthNumber = 8;
-
                     break;
                 case "September":
                     monthNumber = 9;
-
                     break;
                 case "October":
                     monthNumber = 10;
-
                     break;
                 case "November":
                     monthNumber = 11;
-
                     break;
                 case "December":
                     monthNumber = 12;
-
                     break;
             }
             if (year != "")
@@ -202,6 +193,8 @@ namespace WebAddressbookTests
 
         public string GetAnniversary(string day, string month, string year, string fieldName)
         {
+            if (day == null) return null;
+
             int Anniversary;
             if (year != "")
                 Anniversary = DateTime.Now.Year - Int32.Parse(year);
@@ -586,6 +579,8 @@ namespace WebAddressbookTests
         {
             get
             {
+                if (Address2 == null) return null;
+
                 string secondaryBlock = "";
                 if (Address2.Trim() != null && Address2.Trim() != "")
                 {
