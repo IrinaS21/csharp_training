@@ -4,19 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using LinqToDB.Mapping;
+
 
 namespace WebAddressbookTests
 {
+    [Table(Name = "addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
+        [Newtonsoft.Json.JsonIgnore]
         public string allPhones;
+        [Newtonsoft.Json.JsonIgnore]
         public string allEmail;
+        [Newtonsoft.Json.JsonIgnore]
         public string allDetails;
+        [Newtonsoft.Json.JsonIgnore]
         public string fullNameNicknameblock;
+        [Newtonsoft.Json.JsonIgnore]
         public string titleCompAddrBlock;
+        [Newtonsoft.Json.JsonIgnore]
         public string phonesBlock;
+        [Newtonsoft.Json.JsonIgnore]
         public string emailHomepageBlock;
+        [Newtonsoft.Json.JsonIgnore]
         public string birthAnnivBlock;
+        [Newtonsoft.Json.JsonIgnore]
         public string secondaryBlock;
 
         public ContactData()
@@ -71,30 +83,108 @@ namespace WebAddressbookTests
             return 0;
         }
 
+        [Column(Name = "firstname")]
         public string Firstname { get; set; }
+
+        [Column(Name = "middlename")]
         public string Middlename { get; set; }
+
+        [Column(Name = "lastname")]
         public string Lastname { get; set; }
+
+        [Column(Name = "id"), PrimaryKey, Identity]
         public string Id { get; set; }
+
+        [Column(Name = "nickname")]
         public string Nickname { get; set; }
+
+        [Column(Name = "title")]
         public string Title { get; set; }
+
+        [Column(Name = "company")]
         public string Company { get; set; }
+
+        [Column(Name = "address")]
         public string Address { get; set; }
+
+        [Column(Name = "home")]
         public string HomePhone { get; set; }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "mobile")]
         public string MobilePhone { get; set; }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "work")]
         public string WorkPhone { get; set; }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "fax")]
         public string Fax { get; set; }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "email")]
         public string Email { get; set; }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "email2")]
         public string Email2 { get; set; }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "email2")]
         public string Email3 { get; set; }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "homepage")]
         public string Homepage { get; set; }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "bday")]
         public string BDay { get; set; }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "bmonth")]
         public string BMonth { get; set; }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "byear")]
         public string BYear { get; set; }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "aday")]
         public string ADay { get; set; }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "amonth")]
         public string AMonth { get; set; }
+
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "ayear")]
         public string AYear { get; set; }
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "address2")]
         public string Address2 { get; set; }
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "phone2")]
         public string Phone2 { get; set; }
+
+        [Newtonsoft.Json.JsonIgnore]
+        [Column(Name = "notes")]
         public string Notes { get; set; }
 
         public string GetAge(string day, string month, string year, string fieldName)
@@ -242,6 +332,7 @@ namespace WebAddressbookTests
         }
 
 
+        [Newtonsoft.Json.JsonIgnore]
         public string AllPhones 
         { 
             get
@@ -261,6 +352,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Newtonsoft.Json.JsonIgnore]
         public string AllEmail
         {
             get
@@ -280,6 +372,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Newtonsoft.Json.JsonIgnore]
         public string AllDetails
         {
             get
@@ -374,6 +467,9 @@ namespace WebAddressbookTests
             }
         }
 
+
+        [Newtonsoft.Json.JsonIgnore]
+
         public string FullNameNicknameblock
         {
             get
@@ -403,6 +499,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Newtonsoft.Json.JsonIgnore]
         public string TitleCompAddrBlock
         {
             get
@@ -442,6 +539,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Newtonsoft.Json.JsonIgnore]
         public string PhonesBlock
         {
             get
@@ -493,6 +591,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Newtonsoft.Json.JsonIgnore]
         public string EmailHomepageBlock
         {
             get
@@ -544,6 +643,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Newtonsoft.Json.JsonIgnore]
         public string BirthAnnivBlock
         {
             get
@@ -575,6 +675,7 @@ namespace WebAddressbookTests
             }
         }
 
+        [Newtonsoft.Json.JsonIgnore]
         public string SecondaryBlock
         {
             get
@@ -693,6 +794,16 @@ namespace WebAddressbookTests
 
             return FullName;
         }
+
+        public static List<ContactData> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from g in db.Contacts select g).ToList();
+            }
+
+        }
+
 
     }
 }

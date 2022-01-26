@@ -37,21 +37,6 @@ namespace addressbook_test_data_generators
                 contacts.Add(new ContactData(TestBase.GenerateRandomString(20), TestBase.GenerateRandomString(20))
                 {
                     Middlename = TestBase.GenerateRandomString(20),
-                    //Nickname = TestBase.GenerateRandomString(20),
-                    //Title = TestBase.GenerateRandomString(20),
-                    //Company = TestBase.GenerateRandomString(20),
-                    //Address = TestBase.GenerateRandomString(20),
-                    //HomePhone = TestBase.GenerateRandomString(20),
-                    //MobilePhone = TestBase.GenerateRandomString(20),
-                    //WorkPhone = TestBase.GenerateRandomString(20),
-                    //Fax = TestBase.GenerateRandomString(20),
-                    //Email = TestBase.GenerateRandomString(20),
-                    //Email2 = TestBase.GenerateRandomString(20),
-                    //Email3 = TestBase.GenerateRandomString(20),
-                    //Homepage = TestBase.GenerateRandomString(20),
-                    //Address2 = TestBase.GenerateRandomString(20),
-                    //Phone2 = TestBase.GenerateRandomString(20),
-                    //Notes = TestBase.GenerateRandomString(20),
                 });
             }
             StreamWriter writer = new StreamWriter(filename);
@@ -93,9 +78,11 @@ namespace addressbook_test_data_generators
                     {
                         System.Console.Out.Write("Unrecognized format: " + format);
                     }
+                    writer.Close();
                 }
             }
             else System.Console.Out.Write("Unrecognized data type: " + dataType);
+            
         }
 
         static void WriteGroupsToExcelFile(List<GroupData> groups, string filename)

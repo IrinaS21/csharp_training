@@ -153,9 +153,28 @@ namespace WebAddressbookTests
             return this;
         }
 
+        internal ContactHelper Modify(ContactData contact, ContactData newData)
+        {
+            IsContactPresent();
+            InitContactModification(contact.Id);
+            FillContactForm(newData);
+            SubmitContacModification();
+            manager.Navigator.ReturnToHomePage();
+            return this;
+        }
+
+
         public ContactHelper Remove(int p)
         {
             SelectContact(p);
+            RemoveContact();
+            manager.Navigator.GoToHomePage();
+            return this;
+        }
+
+        public ContactHelper Remove(ContactData contact)
+        {
+            SelectContact(contact.Id);
             RemoveContact();
             manager.Navigator.GoToHomePage();
             return this;
@@ -194,7 +213,6 @@ namespace WebAddressbookTests
             return this;
         }
 
-
         public ContactHelper InitContactModification(int index)
         {
             driver.FindElements(By.Name("entry"))[index]
@@ -202,6 +220,15 @@ namespace WebAddressbookTests
                 .FindElement(By.TagName("a")).Click();
             return this;
         }
+
+        private ContactHelper InitContactModification(string id)
+        {
+            driver.FindElement(By.XPath("//input[@name='selected[]' and @value='" + id + "']"))
+                .FindElement(By.XPath("//img[@alt='Edit']")).Click();
+
+            return this;
+        }
+
 
         public ContactHelper SubmitContacModification()
         {
@@ -215,6 +242,14 @@ namespace WebAddressbookTests
             driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr["+ (index+1) +"]/td/input")).Click();
             return this;
         }
+
+        public ContactHelper SelectContact(string id)
+        {
+            driver.FindElement(By.XPath("//input[@name='selected[]' and @value='" + id + "']")).Click();
+            return this;
+        }
+
+
 
         public ContactHelper RemoveContact()
         {
