@@ -58,5 +58,15 @@ namespace WebAddressbookTests
             Assert.AreEqual(oldContacts, newContacts);
         }
 
+        [Test]
+        public void ContactInGroups()
+        {
+            foreach (GroupData group in ContactData.GetAll()[0].GetGroups())
+            {
+                System.Console.Out.WriteLine(group);
+            }
+
+        }
+
     }
 }

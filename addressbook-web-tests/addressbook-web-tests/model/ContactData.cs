@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using LinqToDB.Mapping;
 
 
+
 namespace WebAddressbookTests
 {
     [Table(Name = "addressbook")]
@@ -186,6 +187,9 @@ namespace WebAddressbookTests
         [Newtonsoft.Json.JsonIgnore]
         [Column(Name = "notes")]
         public string Notes { get; set; }
+
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
 
         public string GetAge(string day, string month, string year, string fieldName)
         {
@@ -799,11 +803,21 @@ namespace WebAddressbookTests
         {
             using (AddressBookDB db = new AddressBookDB())
             {
-                return (from g in db.Contacts select g).ToList();
+                return (from g in db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00") select g).ToList();
             }
 
         }
 
+        public List<GroupData> GetGroups()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from g in db.Groups
+                        from gcr in db.GCR.Where(p => p.ContactId == Id && p.GroupId == g.Id)
+                        select g).Distinct().ToList();
+            }
+
+        }
 
     }
 }
