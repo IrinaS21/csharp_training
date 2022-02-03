@@ -13,15 +13,49 @@ namespace WebAddressbookTests
         [Test]
         public void TestDeletingContactfromGroup()
         {
-            GroupData group = GroupData.GetAll()[0];
-            List<ContactData> oldList = group.GetContacts();
-            ContactData contact = GroupData.GetAll()[0].GetContacts().First();
+            List<GroupData> grouplist = GroupData.GetAll();
+            List<ContactData> contactlist = ContactData.GetAll();
+            ContactData newcontact = new ContactData("Иван", "Сидоров");
+            newcontact.Middlename = "Петрович";
+            GroupData newgroup = new GroupData("новая группа");
+
+            if (grouplist.Count == 0)
+            {
+                app.Groups.Create(newgroup);
+
+                if (contactlist.Count == 0)
+                {
+                    app.Contacts.Create(newcontact);
+                    GroupData group = GroupData.GetAll()[0];
+                    List<ContactData> contactsInGroup = group.GetContacts();
+                    ContactData contact = ContactData.GetAll().Except(contactsInGroup).First();
+                    app.Contacts.AddContactToGroup(contact, group);
+                }
+            }
+            else
+            {
+                if (contactlist.Count == 0)
+                {
+                    app.Contacts.Create(newcontact);
+                }
+                GroupData group = GroupData.GetAll()[0];
+                List<ContactData> contactsInGroup = group.GetContacts();
+                if (contactsInGroup.Count == 0)
+                {
+                    ContactData contact = ContactData.GetAll().Except(contactsInGroup).First();
+                    app.Contacts.AddContactToGroup(contact, group);
+                }
+            }
+
+            GroupData group2 = GroupData.GetAll()[0];
+            List<ContactData> oldList = group2.GetContacts();
+            ContactData contactInGroup = GroupData.GetAll()[0].GetContacts().First();
             
 
-            app.Contacts.DeleteContactFromGroup(contact, group);
+            app.Contacts.DeleteContactFromGroup(contactInGroup, group2);
 
-            List<ContactData> newList = group.GetContacts();
-            oldList.Remove(contact);
+            List<ContactData> newList = group2.GetContacts();
+            oldList.Remove(contactInGroup);
             newList.Sort();
             oldList.Sort();
 
