@@ -32,7 +32,7 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return Name == other.Name;
+            return Name == other.Name && Id == other.Id;
         }
 
         public override int GetHashCode()
@@ -59,7 +59,7 @@ namespace WebAddressbookTests
         [Column(Name = "group_header")]
         public string Header { get; set; }
 
-        [Column(Name = "group_header")]
+        [Column(Name = "group_footer")]
         public string Footer { get; set; }
 
         [Column(Name = "group_id"), PrimaryKey, Identity]
@@ -73,6 +73,7 @@ namespace WebAddressbookTests
             }
 
         }
+
 
         public List<ContactData> GetContacts()
         {

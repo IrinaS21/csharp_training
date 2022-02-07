@@ -44,6 +44,7 @@ namespace WebAddressbookTests
             Lastname = lastname;
         }
 
+  
         public bool Equals(ContactData other)
         {
             if (Object.ReferenceEquals(other, null))
@@ -54,7 +55,7 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return Firstname == other.Firstname && Lastname == other.Lastname;
+            return Firstname == other.Firstname && Lastname == other.Lastname && Id == other.Id;
         }
 
         public override int GetHashCode()
