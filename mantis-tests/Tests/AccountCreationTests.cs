@@ -25,10 +25,13 @@ namespace mantis_tests
         {
             AccountData account = new AccountData()
             {
-                Username = "testuser",
+                Username = "testuser9",
                 Password = "password",
-                Email = "testuser@localhost.localdomain"
+                Email = "testuser9@localhost.localdomain"
             };
+            app.James.Delete(account);
+            app.James.Add(account);
+
             app.Registration.Register(account);
         }
 
