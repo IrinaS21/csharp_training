@@ -23,6 +23,8 @@ namespace mantis_tests
         public RegistrationHelper Registration { get; set; }
         public JamesHelper James { get; set; }
         public MailHelper Mail { get; set; }
+        public AdminHelper Admin { get; set; }
+        public APIHelper API { get; set; }
 
         private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
@@ -30,7 +32,7 @@ namespace mantis_tests
         {
             driver = new FirefoxDriver();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            baseURL = "http://localhost";
+            baseURL = "http://localhost/mantisbt-2.25.2";
 
             loginHelper = new LoginHelper(this);
             navigationHelper = new NavigationHelper(this, baseURL);
@@ -39,6 +41,8 @@ namespace mantis_tests
             Registration = new RegistrationHelper(this);
             James = new JamesHelper(this);
             Mail = new MailHelper(this);
+            Admin = new AdminHelper(this, baseURL);
+            API = new APIHelper(this);
 
         }
         ~ApplicationManager()

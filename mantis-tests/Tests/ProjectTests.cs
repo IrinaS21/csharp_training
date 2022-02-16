@@ -27,17 +27,14 @@ namespace mantis_tests
         [Test]
         public void TestProjectCreation()
         {
-
+            var oldProjects = app.API.GetProjectsList(account);
 
             app.Auth.Login(account);
             app.Navigator.GoToProjectsPage();
-
-            List<ProjectData> oldProjects = app.Projects.GetProjectList();
             app.Projects.Create(project);
 
-            Assert.AreEqual(oldProjects.Count + 1, app.Projects.GetProjectList().Count);
+            var newProjects = app.API.GetProjectsList(account);
 
-            List<ProjectData> newProjects = app.Projects.GetProjectList();
             oldProjects.Add(project);
             oldProjects.Sort();
             newProjects.Sort();
@@ -48,23 +45,19 @@ namespace mantis_tests
         [Test]
         public void TestProjectRemoval()
         {
-
+            var projectsList = app.API.GetProjectsList(account);
+            if (projectsList.Count == 0)
+            {
+                app.API.CreateProject(account, project);
+            }
+            var oldProjects = app.API.GetProjectsList(account);
             app.Auth.Login(account);
             app.Navigator.GoToProjectsPage();
 
-            List<ProjectData> projectsList = app.Projects.GetProjectList();
-            if (projectsList.Count == 0)
-            {
-                app.Projects.Create(project);
-            }
-
-            List<ProjectData> oldProjects = app.Projects.GetProjectList();
-
             app.Projects.Remove(1);
 
-            Assert.AreEqual(oldProjects.Count - 1, app.Projects.GetProjectList().Count);
+            var newProjects = app.API.GetProjectsList(account);
 
-            List<ProjectData> newProjects = app.Projects.GetProjectList();
             oldProjects.Remove(project);
             oldProjects.Sort();
             newProjects.Sort();

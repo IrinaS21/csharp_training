@@ -26,7 +26,7 @@ namespace mantis_tests
             return this;
         }
 
-        private List<ProjectData> projectList = new List<ProjectData>();
+        List<ProjectData> projectList = new List<ProjectData>();
 
         public List<ProjectData> GetProjectList()
         {
@@ -63,7 +63,7 @@ namespace mantis_tests
 
         public ProjectHelper InitNewProjectCreation()
         {
-            driver.FindElement(By.XPath("/html/body/div[2]/div[2]/div[2]/div/div/div[2]/div[2]/div/div[1]/form/button")).Click();
+            driver.FindElement(By.XPath("//form[@action='manage_proj_create_page.php']//button")).Click();
             return this;
 
         }
